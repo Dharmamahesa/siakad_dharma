@@ -2,9 +2,10 @@
 
 namespace App\Controllers;
 
+// Impor semua class yang dibutuhkan di awal
 use App\Controllers\BaseController;
-use App\Models\UserModel; // Memanggil UserModel
-use Config\Services;      // Memanggil Services untuk session
+use App\Models\UserModel;
+use Config\Services;
 
 class AuthController extends BaseController
 {
@@ -15,27 +16,24 @@ class AuthController extends BaseController
     protected $session;
 
     /**
-     * Konstruktor. Dijalankan setiap kali AuthController dibuat.
-     * Cocok untuk inisialisasi properti dan helper.
+     * Konstruktor untuk inisialisasi.
      */
     public function __construct()
     {
-        // Menginisialisasi service session
+        // Menginisialisasi service session agar bisa dipakai di seluruh controller
         $this->session = Services::session();
         
-        // Memuat helper yang dibutuhkan di seluruh controller ini
+        // Memuat helper yang dibutuhkan
         helper(['form', 'url']);
     }
 
     /**
      * Menampilkan halaman form login.
-     * Disempurnakan: Jika user sudah login, langsung arahkan ke dashboard.
+     * Jika user sudah login, akan langsung diarahkan ke dashboard.
      */
     public function login()
     {
-        // Cek apakah session 'isLoggedIn' sudah ada
         if ($this->session->get('isLoggedIn')) {
-            // Arahkan berdasarkan role yang tersimpan di session
             if ($this->session->get('role') === 'admin') {
                 return redirect()->to('/admin/dashboard');
             } else {
@@ -43,7 +41,6 @@ class AuthController extends BaseController
             }
         }
         
-        // Jika belum login, tampilkan view login yang baru
         return view('auth/login');
     }
 
@@ -52,52 +49,68 @@ class AuthController extends BaseController
      */
     public function processLogin()
     {
-        // 1. Aturan Validasi Input
+        // 1. Aturan Validasi
         $rules = [
             'username' => 'required',
-            'password' => 'required|min_length[5]', // Minimal 5 karakter untuk password
+            'password' => 'required',
         ];
 
         // 2. Lakukan Validasi
         if (!$this->validate($rules)) {
-            // Jika validasi gagal, kembalikan ke form login dengan pesan error validasi
-            // withInput() akan menyimpan input sebelumnya agar tidak perlu mengetik ulang
-            return redirect()->to('/')->withInput()->with('validation', $this->validator);
+            return redirect()->to('/')->withInput()->with('validation', 'Username dan Password wajib diisi.');
         }
 
-        // 3. Ambil data dari form jika validasi berhasil
+        // 3. Ambil data dari form
         $username = $this->request->getPost('username');
         $password = $this->request->getPost('password');
 
-        // 4. Inisialisasi UserModel dan cek data user
+        // 4. Inisialisasi Model dan cari user
         $userModel = new UserModel();
         $user = $userModel->getUserByUsername($username);
+
+        // =================================================================
+        // KODE DEBUGGING (Bisa diaktifkan kembali jika masih ada masalah)
+        // Hapus tanda /* dan */ untuk mengaktifkan.
+        /*
+        echo "Mencoba login dengan username: <b>" . esc($username) . "</b>";
+        echo "<hr>";
+        echo "Password yang diketik: <b>" . esc($password) . "</b>";
+        echo "<hr>";
+        if ($user) {
+            echo "DATA USER DITEMUKAN DI DATABASE:";
+            echo "<pre>"; var_dump($user); echo "</pre><hr>";
+            echo "HASH PASSWORD DARI DATABASE:<br><b>" . $user['password'] . "</b><hr>";
+            echo "HASIL PEMERIKSAAN password_verify(): ";
+            var_dump(password_verify($password, $user['password']));
+            echo "<hr>";
+        } else {
+            echo "<b>USER TIDAK DITEMUKAN DI DATABASE.</b><hr>";
+        }
+        die("Proses debugging berhenti di sini.");
+        */
+        // =================================================================
 
         // 5. Verifikasi User dan Password
         if ($user && password_verify($password, $user['password'])) {
             // Jika user ditemukan DAN password cocok:
-            
-            // a. Siapkan data untuk disimpan ke dalam session
             $sessionData = [
                 'id_user'       => $user['id_user'],
                 'username'      => $user['username'],
                 'role'          => $user['role'],
                 'isLoggedIn'    => true,
-                'id_mahasiswa'  => $user['id_mahasiswa'] // <-- TAMBAHKAN BARIS INI
+                'id_mahasiswa'  => $user['id_mahasiswa'] // Penting untuk MahasiswaController
             ];
-
-            // b. Simpan data ke session
+            
             $this->session->set($sessionData);
 
-            // c. Arahkan (redirect) ke dashboard yang sesuai dengan rolenya
+            // Arahkan ke dashboard yang sesuai
             if ($user['role'] === 'admin') {
                 return redirect()->to('/admin/dashboard');
             } else {
                 return redirect()->to('/mahasiswa/dashboard');
             }
         } else {
-            // Jika username tidak ditemukan atau password salah
-            // Kembalikan ke halaman login dengan pesan error umum
+            // Jika user tidak ditemukan atau password salah, kembalikan ke login
             return redirect()->to('/')->withInput()->with('error', 'Username atau Password yang Anda masukkan salah.');
         }
     }
@@ -107,10 +120,7 @@ class AuthController extends BaseController
      */
     public function logout()
     {
-        // Hancurkan semua data session
         $this->session->destroy();
-        
-        // Arahkan kembali ke halaman login dengan pesan sukses
         return redirect()->to('/')->with('success', 'Anda berhasil logout.');
     }
 }

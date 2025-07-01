@@ -67,29 +67,7 @@ class AuthController extends BaseController
         // 4. Inisialisasi Model dan cari user
         $userModel = new UserModel();
         $user = $userModel->getUserByUsername($username);
-
-        // =================================================================
-        // KODE DEBUGGING (Bisa diaktifkan kembali jika masih ada masalah)
-        // Hapus tanda /* dan */ untuk mengaktifkan.
-        /*
-        echo "Mencoba login dengan username: <b>" . esc($username) . "</b>";
-        echo "<hr>";
-        echo "Password yang diketik: <b>" . esc($password) . "</b>";
-        echo "<hr>";
-        if ($user) {
-            echo "DATA USER DITEMUKAN DI DATABASE:";
-            echo "<pre>"; var_dump($user); echo "</pre><hr>";
-            echo "HASH PASSWORD DARI DATABASE:<br><b>" . $user['password'] . "</b><hr>";
-            echo "HASIL PEMERIKSAAN password_verify(): ";
-            var_dump(password_verify($password, $user['password']));
-            echo "<hr>";
-        } else {
-            echo "<b>USER TIDAK DITEMUKAN DI DATABASE.</b><hr>";
-        }
-        die("Proses debugging berhenti di sini.");
-        */
-        // =================================================================
-
+        // if ($user && password_verify($password, $user['password'])) { ...
         // 5. Verifikasi User dan Password
         if ($user && password_verify($password, $user['password'])) {
             // Jika user ditemukan DAN password cocok:

@@ -12,7 +12,7 @@
     <style>
         /* (CSS kustom Anda dari sebelumnya bisa tetap di sini) */
         .content-wrapper {
-            background: url('https://a.storyblok.com/f/178900/750x422/ad235070bc/frierens_mini_anime_magic_of_frieren_header.jpg/m/filters:quality(95)format(webp)') no-repeat center center;
+            background: url('https://depotkamera.com/wp-content/uploads/2022/03/Picture1-2.png') no-repeat center center;
             background-size: cover;
             position: relative;
         }

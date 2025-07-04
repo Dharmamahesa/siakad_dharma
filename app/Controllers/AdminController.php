@@ -26,20 +26,77 @@ class AdminController extends BaseController
     }
 
     // ====================================================================
-    // FUNGSI CRUD MAHASISWA (Sudah ada, tidak perlu diubah)
+    // MANAJEMEN MAHASISWA
     // ====================================================================
-    public function mahasiswa_index() { /* ... kode Anda saat ini ... */ }
-    public function mahasiswa_create() { /* ... kode Anda saat ini ... */ }
-    public function mahasiswa_store() { /* ... kode Anda saat ini ... */ }
-    public function mahasiswa_edit($id) { /* ... kode Anda saat ini ... */ }
-    public function mahasiswa_update($id) { /* ... kode Anda saat ini ... */ }
-    public function mahasiswa_delete($id) { /* ... kode Anda saat ini ... */ }
+    public function mahasiswa_index()
+    {
+        $mahasiswaModel = new MahasiswaModel();
+        $data = [
+            'title' => 'Manajemen Mahasiswa',
+            'mahasiswa_list' => $mahasiswaModel->orderBy('nama_mahasiswa', 'ASC')->findAll()
+        ];
+        return view('mahasiswa/index', $data);
+    }
 
+    public function mahasiswa_create()
+    {
+        $data['title'] = 'Tambah Mahasiswa Baru';
+        return view('mahasiswa/create', $data);
+    }
+
+    public function mahasiswa_store()
+    {
+        $rules = [
+            'nim' => 'required|is_unique[mahasiswa.nim]',
+            'nama_mahasiswa' => 'required|min_length[3]',
+            'angkatan' => 'required|integer|exact_length[4]'
+        ];
+        if (!$this->validate($rules)) {
+            return redirect()->back()->withInput()->with('validation', $this->validator);
+        }
+        $mahasiswaModel = new MahasiswaModel();
+        $mahasiswaModel->save($this->request->getPost());
+        return redirect()->to('mahasiswa-index')->with('success', 'Data mahasiswa berhasil ditambahkan.');
+    }
+
+    public function mahasiswa_edit($id)
+    {
+        $mahasiswaModel = new MahasiswaModel();
+        $data = [
+            'title' => 'Edit Mahasiswa',
+            'mahasiswa' => $mahasiswaModel->find($id)
+        ];
+        if (empty($data['mahasiswa'])) {
+            throw new \CodeIgniter\Exceptions\PageNotFoundException('Mahasiswa tidak ditemukan.');
+        }
+        return view('mahasiswa/edit', $data);
+    }
+
+    public function mahasiswa_update($id)
+    {
+        $rules = [
+            'nim' => "required|is_unique[mahasiswa.nim,id_mahasiswa,{$id}]",
+            'nama_mahasiswa' => 'required|min_length[3]',
+            'angkatan' => 'required|integer|exact_length[4]'
+        ];
+        if (!$this->validate($rules)) {
+            return redirect()->back()->withInput()->with('validation', $this->validator);
+        }
+        $mahasiswaModel = new MahasiswaModel();
+        $mahasiswaModel->update($id, $this->request->getPost());
+        return redirect()->to('mahasiswa/index')->with('success', 'Data mahasiswa berhasil diperbarui.');
+    }
+
+    public function mahasiswa_delete($id)
+    {
+        $mahasiswaModel = new MahasiswaModel();
+        $mahasiswaModel->delete($id);
+        return redirect()->to('mahasiswa')->with('success', 'Data mahasiswa berhasil dihapus.');
+    }
 
     // ====================================================================
-    // !! FUNGSI BARU UNTUK CRUD DOSEN !!
+    // MANAJEMEN DOSEN
     // ====================================================================
-
     public function dosen_index()
     {
         $dosenModel = new DosenModel();
@@ -62,11 +119,9 @@ class AdminController extends BaseController
             'nidn' => 'required|is_unique[dosen.nidn]',
             'nama_dosen' => 'required|min_length[3]',
         ];
-
         if (!$this->validate($rules)) {
             return redirect()->back()->withInput()->with('validation', $this->validator);
         }
-
         $dosenModel = new DosenModel();
         $dosenModel->save($this->request->getPost());
         return redirect()->to('/admin/dosen')->with('success', 'Data dosen berhasil ditambahkan.');
@@ -91,11 +146,9 @@ class AdminController extends BaseController
             'nidn' => "required|is_unique[dosen.nidn,id_dosen,{$id}]",
             'nama_dosen' => 'required|min_length[3]',
         ];
-
         if (!$this->validate($rules)) {
             return redirect()->back()->withInput()->with('validation', $this->validator);
         }
-
         $dosenModel = new DosenModel();
         $dosenModel->update($id, $this->request->getPost());
         return redirect()->to('/admin/dosen')->with('success', 'Data dosen berhasil diperbarui.');
@@ -108,17 +161,14 @@ class AdminController extends BaseController
         return redirect()->to('/admin/dosen')->with('success', 'Data dosen berhasil dihapus.');
     }
 
-
     // ====================================================================
-    // !! FUNGSI BARU UNTUK CRUD MATA KULIAH !!
+    // MANAJEMEN MATA KULIAH
     // ====================================================================
-
     public function matakuliah_index()
     {
         $matakuliahModel = new MataKuliahModel();
         $data = [
             'title' => 'Manajemen Mata Kuliah',
-            // Gunakan method custom kita untuk mendapatkan nama dosen
             'matakuliah_list' => $matakuliahModel->getAllWithDosen()
         ];
         return view('admin/matakuliah/index', $data);
@@ -129,7 +179,7 @@ class AdminController extends BaseController
         $dosenModel = new DosenModel();
         $data = [
             'title' => 'Tambah Mata Kuliah Baru',
-            'dosen_list' => $dosenModel->findAll() // Untuk mengisi dropdown
+            'dosen_list' => $dosenModel->findAll()
         ];
         return view('admin/matakuliah/create', $data);
     }
@@ -142,11 +192,9 @@ class AdminController extends BaseController
             'sks' => 'required|integer',
             'id_dosen' => 'required'
         ];
-
         if (!$this->validate($rules)) {
             return redirect()->back()->withInput()->with('validation', $this->validator);
         }
-
         $matakuliahModel = new MataKuliahModel();
         $matakuliahModel->save($this->request->getPost());
         return redirect()->to('/admin/matakuliah')->with('success', 'Data mata kuliah berhasil ditambahkan.');
@@ -175,11 +223,9 @@ class AdminController extends BaseController
             'sks' => 'required|integer',
             'id_dosen' => 'required'
         ];
-
         if (!$this->validate($rules)) {
             return redirect()->back()->withInput()->with('validation', $this->validator);
         }
-
         $matakuliahModel = new MataKuliahModel();
         $matakuliahModel->update($id, $this->request->getPost());
         return redirect()->to('/admin/matakuliah')->with('success', 'Data mata kuliah berhasil diperbarui.');
@@ -191,4 +237,5 @@ class AdminController extends BaseController
         $matakuliahModel->delete($id);
         return redirect()->to('/admin/matakuliah')->with('success', 'Data mata kuliah berhasil dihapus.');
     }
-}
+
+} // <- Tanda kurung kurawal penutup Class yang paling akhir. Pastikan ini tidak terhapus.

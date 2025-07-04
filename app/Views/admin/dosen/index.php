@@ -26,31 +26,39 @@
                 </div>
                 <div class="card-body">
                     <?php if (session()->getFlashdata('success')) : ?>
-                        <div class="alert alert-success"><?= session()->getFlashdata('success') ?></div>
+                        <div class="alert alert-success alert-dismissible fade show" role="alert">
+                            <?= session()->getFlashdata('success') ?>
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        </div>
                     <?php endif; ?>
-                    <table class="table table-bordered">
+
+                    <table class="table table-bordered table-striped">
                         <thead>
                             <tr>
                                 <th>#</th>
                                 <th>NIDN</th>
                                 <th>Nama Dosen</th>
                                 <th>Kontak</th>
-                                <th>Aksi</th>
+                                <th style="width: 150px;">Aksi</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <?php foreach ($dosen_list as $key => $dosen) : ?>
-                                <tr>
-                                    <td><?= $key + 1 ?></td>
-                                    <td><?= esc($dosen['nidn']) ?></td>
-                                    <td><?= esc($dosen['nama_dosen']) ?></td>
-                                    <td><?= esc($dosen['kontak']) ?></td>
-                                    <td>
-                                        <a href="<?= site_url('admin/dosen/edit/' . $dosen['id_dosen']) ?>" class="btn btn-sm btn-warning">Edit</a>
-                                        <a href="<?= site_url('admin/dosen/delete/' . $dosen['id_dosen']) ?>" class="btn btn-sm btn-danger" onclick="return confirm('Apakah Anda yakin ingin menghapus data ini?')">Hapus</a>
-                                    </td>
-                                </tr>
-                            <?php endforeach; ?>
+                            <?php if (empty($dosen_list)): ?>
+                                <tr><td colspan="5" class="text-center">Belum ada data dosen.</td></tr>
+                            <?php else: ?>
+                                <?php foreach ($dosen_list as $key => $dosen) : ?>
+                                    <tr>
+                                        <td><?= $key + 1 ?></td>
+                                        <td><?= esc($dosen['nidn']) ?></td>
+                                        <td><?= esc($dosen['nama_dosen']) ?></td>
+                                        <td><?= esc($dosen['kontak']) ?></td>
+                                        <td>
+                                            <a href="<?= site_url('admin/dosen/edit/' . $dosen['id_dosen']) ?>" class="btn btn-sm btn-warning">Edit</a>
+                                            <a href="<?= site_url('admin/dosen/delete/' . $dosen['id_dosen']) ?>" class="btn btn-sm btn-danger" onclick="return confirm('Apakah Anda yakin ingin menghapus data ini?')">Hapus</a>
+                                        </td>
+                                    </tr>
+                                <?php endforeach; ?>
+                            <?php endif; ?>
                         </tbody>
                     </table>
                 </div>

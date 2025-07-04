@@ -69,4 +69,11 @@ class MataKuliahModel extends Model
             // Kembalikan hasilnya dalam bentuk array
             ->getResultArray(); 
     }
+    public function getMatkulByDosen(int $id_dosen)
+    {
+        return $this->where('id_dosen', $id_dosen)
+                    ->orderBy('nama_matkul', 'ASC')
+                    ->findAll();
+    }
+
 }

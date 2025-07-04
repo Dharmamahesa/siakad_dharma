@@ -11,7 +11,7 @@ class DosenModel extends Model
      * @var string
      */
     protected $table            = 'dosen';
-
+    
     /**
      * Nama kolom yang menjadi Primary Key.
      * @var string
@@ -51,6 +51,21 @@ class DosenModel extends Model
      * @var bool
      */
     protected $useTimestamps = false;
+
+     /**
+     * Mengambil daftar dosen yang belum memiliki akun di tabel users.
+     * @return array
+     */
+    public function getUnlinkedDosen()
+    {
+        return $this->builder()
+            ->select('dosen.id_dosen, dosen.nidn, dosen.nama_dosen')
+            ->join('users', 'users.id_dosen = dosen.id_dosen', 'left')
+            ->where('users.id_user IS NULL') // Cari yang tidak punya pasangan di tabel users
+            ->orderBy('dosen.nama_dosen', 'ASC')
+            ->get()
+            ->getResultArray();
+    }
 
     // Seperti halnya MahasiswaModel, tidak perlu menulis fungsi CRUD manual
     // karena semuanya sudah otomatis diwarisi dari class Model bawaan CodeIgniter.

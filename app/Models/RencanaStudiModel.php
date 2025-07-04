@@ -77,4 +77,14 @@ class RencanaStudiModel extends Model
             ->get()
             ->getResultArray();
     }
+    public function getPesertaByMatkul(int $id_matkul)
+    {
+        return $this->builder()
+            ->select('mahasiswa.nim, mahasiswa.nama_mahasiswa, mahasiswa.angkatan')
+            ->join('mahasiswa', 'mahasiswa.id_mahasiswa = rencana_studi.id_mahasiswa')
+            ->where('rencana_studi.id_matkul', $id_matkul)
+            ->orderBy('mahasiswa.nama_mahasiswa', 'ASC')
+            ->get()
+            ->getResultArray();
+    }
 }

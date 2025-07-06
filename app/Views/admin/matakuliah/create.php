@@ -53,13 +53,35 @@
                                     <?php endforeach; ?>
                                 <?php endif; ?>
                             </select>
-                        </div>
-                        <hr>
-                        <button type="submit" class="btn btn-primary">Simpan</button>
-                        <a href="<?= site_url('admin/matakuliah') ?>" class="btn btn-secondary">Batal</a>
-                    </form>
-                </div>
-            </div>
-        </div></div>
+                        <div class="form-group">
+    <label for="hari">Hari</label>
+    <select name="hari" id="hari" class="form-control">
+        <option value="">-- Pilih Hari --</option>
+        <option value="Senin" <?= (old('hari') == 'Senin') ? 'selected' : '' ?>>Senin</option>
+        <option value="Selasa" <?= (old('hari') == 'Selasa') ? 'selected' : '' ?>>Selasa</option>
+        <option value="Rabu" <?= (old('hari') == 'Rabu') ? 'selected' : '' ?>>Rabu</option>
+        <option value="Kamis" <?= (old('hari') == 'Kamis') ? 'selected' : '' ?>>Kamis</option>
+        <option value="Jumat" <?= (old('hari') == 'Jumat') ? 'selected' : '' ?>>Jumat</option>
+        <option value="Sabtu" <?= (old('hari') == 'Sabtu') ? 'selected' : '' ?>>Sabtu</option>
+    </select>
+</div>
+<div class="row">
+    <div class="col-md-6">
+        <div class="form-group">
+            <label for="jam_mulai">Jam Mulai</label>
+            <input type="time" name="jam_mulai" id="jam_mulai" class="form-control" value="<?= old('jam_mulai') ?>">
+        </div>
     </div>
-<?= view('layouts/admin_footer') ?>
+    <div class="col-md-6">
+        <div class="form-group">
+            <label for="jam_selesai">Jam Selesai</label>
+            <input type="time" name="jam_selesai" id="jam_selesai" class="form-control" value="<?= old('jam_selesai') ?>">
+        </div>
+    </div>
+</div>
+<div class="form-group">
+    <label for="ruangan">Ruangan</label>
+    <input type="text" name="ruangan" id="ruangan" class="form-control" value="<?= old('ruangan') ?>" placeholder="Contoh: G.2.1">
+</div>
+<hr>
+<button type="submit" class="btn btn-primary">Simpan</button>

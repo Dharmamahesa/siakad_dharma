@@ -34,7 +34,7 @@ class MataKuliahModel extends Model
      * Daftar kolom yang diizinkan untuk diisi saat menggunakan method save(), insert(), atau update().
      * @var array
      */
-    protected $allowedFields    = ['kode_matkul', 'nama_matkul', 'sks', 'id_dosen'];
+    protected $allowedFields = ['kode_matkul', 'nama_matkul', 'sks', 'id_dosen', 'hari', 'jam_mulai', 'jam_selesai', 'ruangan'];
 
     /**
      * Menentukan apakah Model harus mengelola timestamp `created_at` dan `updated_at`.

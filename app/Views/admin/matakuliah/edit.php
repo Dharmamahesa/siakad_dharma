@@ -55,14 +55,35 @@
                                     </option>
                                 <?php endforeach; ?>
                             </select>
-                        </div>
-                        <a href="<?= site_url('admin/matakuliah') ?>" class="btn btn-secondary">Kembali</a>
-                        <button type="submit" class="btn btn-primary">Update</button>
-                    </form>
-                </div>
-            </div>
+                        <div class="form-group">
+    <label for="hari">Hari</label>
+    <select name="hari" id="hari" class="form-control">
+        <option value="">-- Pilih Hari --</option>
+        <option value="Senin" <?= ($matakuliah['hari'] == 'Senin') ? 'selected' : '' ?>>Senin</option>
+        <option value="Selasa" <?= ($matakuliah['hari'] == 'Selasa') ? 'selected' : '' ?>>Selasa</option>
+        <option value="Rabu" <?= ($matakuliah['hari'] == 'Rabu') ? 'selected' : '' ?>>Rabu</option>
+        <option value="Kamis" <?= ($matakuliah['hari'] == 'Kamis') ? 'selected' : '' ?>>Kamis</option>
+        <option value="Jumat" <?= ($matakuliah['hari'] == 'Jumat') ? 'selected' : '' ?>>Jumat</option>
+        <option value="Sabtu" <?= ($matakuliah['hari'] == 'Sabtu') ? 'selected' : '' ?>>Sabtu</option>
+    </select>
+</div>
+<div class="row">
+    <div class="col-md-6">
+        <div class="form-group">
+            <label for="jam_mulai">Jam Mulai</label>
+            <input type="time" name="jam_mulai" id="jam_mulai" class="form-control" value="<?= esc($matakuliah['jam_mulai']) ?>">
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="form-group">
+            <label for="jam_selesai">Jam Selesai</label>
+            <input type="time" name="jam_selesai" id="jam_selesai" class="form-control" value="<?= esc($matakuliah['jam_selesai']) ?>">
         </div>
     </div>
 </div>
-
-<?= view('layouts/admin_footer') ?>
+<div class="form-group">
+    <label for="ruangan">Ruangan</label>
+    <input type="text" name="ruangan" id="ruangan" class="form-control" value="<?= esc($matakuliah['ruangan']) ?>">
+</div>
+<hr>
+<button type="submit" class="btn btn-primary">Update</button>

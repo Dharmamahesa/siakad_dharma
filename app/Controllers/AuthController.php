@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Controllers;
 
 use App\Controllers\BaseController;
@@ -16,37 +15,20 @@ class AuthController extends BaseController
         helper(['form', 'url']);
     }
 
-    /**
-     * Menampilkan halaman login.
-     * Logika ini sudah diperbaiki untuk menangani 3 role.
-     */
     public function login()
     {
         if ($this->session->get('isLoggedIn')) {
             $role = $this->session->get('role');
-            if ($role === 'admin') {
-                return redirect()->to('/admin/dashboard');
-            } elseif ($role === 'mahasiswa') {
-                return redirect()->to('/mahasiswa/dashboard');
-            } elseif ($role === 'dosen') {
-                return redirect()->to('/dosen/dashboard');
-            }
+            if ($role === 'admin') { return redirect()->to('/admin/dashboard'); } 
+            elseif ($role === 'mahasiswa') { return redirect()->to('/mahasiswa/dashboard'); } 
+            elseif ($role === 'dosen') { return redirect()->to('/dosen/dashboard'); }
         }
-        
         return view('auth/login');
     }
 
-    /**
-     * Memproses data login.
-     * Ini adalah versi bersih tanpa kode debugging.
-     */
     public function processLogin()
     {
-        $rules = [
-            'username' => 'required',
-            'password' => 'required',
-        ];
-
+        $rules = ['username' => 'required', 'password' => 'required'];
         if (!$this->validate($rules)) {
             return redirect()->to('/')->withInput()->with('error', 'Username dan Password wajib diisi.');
         }
@@ -57,38 +39,30 @@ class AuthController extends BaseController
         $userModel = new UserModel();
         $user = $userModel->getUserByUsername($username);
 
-        // Verifikasi User dan Password
         if ($user && password_verify($password, $user['password'])) {
-            // Jika user ditemukan DAN password cocok:
+            // INI BAGIAN PALING PENTING DAN KRITIS
+            // Kita memastikan semua data dari tabel 'users' disimpan ke sesi
             $sessionData = [
                 'id_user'       => $user['id_user'],
                 'username'      => $user['username'],
                 'role'          => $user['role'],
                 'isLoggedIn'    => true,
                 'id_mahasiswa'  => $user['id_mahasiswa'],
-                'id_dosen'      => $user['id_dosen']
+                'id_dosen'      => $user['id_dosen'] // <-- Kunci perbaikannya ada di sini
             ];
             
             $this->session->set($sessionData);
 
-            // Arahkan ke dashboard yang sesuai dengan rolenya
+            // Arahkan ke dashboard yang sesuai
             $role = $user['role'];
-            if ($role === 'admin') {
-                return redirect()->to('/admin/dashboard');
-            } elseif ($role === 'mahasiswa') {
-                return redirect()->to('/mahasiswa/dashboard');
-            } elseif ($role === 'dosen') {
-                return redirect()->to('/dosen/dashboard');
-            }
-        } else {
-            // Jika user tidak ditemukan atau password salah, kembalikan ke login
-            return redirect()->to('/')->withInput()->with('error', 'Username atau Password yang Anda masukkan salah.');
+            if ($role === 'admin') { return redirect()->to('/admin/dashboard'); } 
+            elseif ($role === 'mahasiswa') { return redirect()->to('/mahasiswa/dashboard'); } 
+            elseif ($role === 'dosen') { return redirect()->to('/dosen/dashboard'); }
         }
+
+        return redirect()->to('/')->withInput()->with('error', 'Username atau Password yang Anda masukkan salah.');
     }
 
-    /**
-     * Proses Logout
-     */
     public function logout()
     {
         $this->session->destroy();

@@ -71,25 +71,43 @@
                             <i class="nav-icon fas fa-check-square"></i><p>Input Nilai</p>
                         </a>
                     </li>
-                
-                <?php elseif (session()->get('role') === 'mahasiswa'): ?>
-                    <li class="nav-item">
-                        <a href="<?= site_url('mahasiswa/dashboard') ?>" class="nav-link <?= (uri_string() === 'mahasiswa/dashboard') ? 'active' : '' ?>">
-                            <i class="nav-icon fas fa-tachometer-alt"></i><p>Dashboard</p>
-                        </a>
-                    </li>
-                    <li class="nav-header">AKADEMIK</li>
-                    <li class="nav-item">
-                        <a href="<?= site_url('mahasiswa/krs') ?>" class="nav-link <?= (strpos(uri_string(), 'mahasiswa/krs') !== false) ? 'active' : '' ?>">
-                            <i class="nav-icon fas fa-edit"></i><p>Kartu Rencana Studi</p>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="#" class="nav-link disabled">
-                            <i class="nav-icon fas fa-poll"></i><p>Hasil Studi (KHS)</p>
-                        </a>
-                    </li>
-                <?php endif; ?>
+
+
+                // di dalam file app/Views/layouts/admin_sidebar.php
+
+            <?php elseif (session()->get('role') === 'mahasiswa'): ?>
+                <li class="nav-item">
+                    <a href="<?= site_url('mahasiswa/dashboard') ?>" class="nav-link ...">
+                        <i class="nav-icon fas fa-user-graduate"></i><p>Dashboard</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="<?= site_url('mahasiswa/profil') ?>" class="nav-link <?= (strpos(uri_string(), 'mahasiswa/profil') !== false) ? 'active' : '' ?>">
+                        <i class="nav-icon fas fa-user-circle"></i><p>Profil Saya</p>
+                    </a>
+                </li>
+                <li class="nav-header">AKADEMIK</li>
+                <li class="nav-item">
+                    <a href="<?= site_url('mahasiswa/krs') ?>" class="nav-link ...">
+                        <i class="nav-icon fas fa-edit"></i><p>Kartu Rencana Studi</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="<?= site_url('mahasiswa/khs') ?>" class="nav-link ...">
+                        <i class="nav-icon fas fa-poll"></i><p>Hasil Studi (KHS)</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="<?= site_url('mahasiswa/transkrip') ?>" class="nav-link ...">
+                        <i class="nav-icon fas fa-file-alt"></i><p>Transkrip Nilai</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="<?= site_url('mahasiswa/jadwal') ?>" class="nav-link <?= (strpos(uri_string(), 'mahasiswa/jadwal') !== false) ? 'active' : '' ?>">
+                        <i class="nav-icon fas fa-calendar-alt"></i><p>Jadwal Kuliah</p>
+                    </a>
+                </li>
+            <?php endif; ?>
 
                 <li class="nav-item mt-3">
                     <a href="<?= site_url('logout') ?>" class="nav-link bg-danger">

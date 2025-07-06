@@ -67,15 +67,19 @@ $routes->group('mahasiswa', ['filter' => 'mahasiswa_auth'], function($routes) {
     $routes->get('krs/tambah', 'MahasiswaController::rencanaStudi_create');
     $routes->post('krs/simpan', 'MahasiswaController::rencanaStudi_store');
     $routes->get('krs/hapus/(:num)', 'MahasiswaController::rencanaStudi_delete_item/$1');
+    $routes->get('khs', 'MahasiswaController::khs');
+    $routes->get('transkrip', 'MahasiswaController::transkrip');
+    $routes->get('profil', 'MahasiswaController::profil');
+    $routes->get('jadwal', 'MahasiswaController::jadwal');
 });
 
 
-// == GRUP RUTE DOSEN ==
-// Pastikan blok ini ada dan benar.
 $routes->group('dosen', ['filter' => 'dosen_auth'], function($routes) {
     $routes->get('dashboard', 'DosenController::index');
     $routes->get('matakuliah', 'DosenController::matakuliah');
     $routes->get('kelas/detail/(:num)', 'DosenController::kelas_detail/$1');
+    $routes->get('input-nilai/(:num)', 'DosenController::input_nilai/$1');
+    $routes->post('simpan-nilai', 'DosenController::simpan_nilai');
 });
 
 

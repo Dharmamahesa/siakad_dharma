@@ -1,8 +1,5 @@
-<?php
-// Ganti layout header dan footer ini jika Anda membuat layout khusus untuk mahasiswa
-echo view('layouts/admin_header'); 
-echo view('layouts/admin_sidebar'); 
-?>
+<?= view('layouts/admin_header') ?>
+<?= view('layouts/admin_sidebar') ?>
 
 <div class="content-wrapper">
     <div class="content-header">
@@ -20,72 +17,60 @@ echo view('layouts/admin_sidebar');
             </div>
         </div>
     </div>
-
     <div class="content">
         <div class="container-fluid">
-            <?php if (session()->getFlashdata('success')) : ?>
-                <div class="alert alert-success alert-dismissible fade show" role="alert">
-                    <?= session()->getFlashdata('success') ?>
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                </div>
-            <?php endif; ?>
-            <?php if (session()->getFlashdata('error')) : ?>
-                <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                    <?= session()->getFlashdata('error') ?>
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                </div>
-            <?php endif; ?>
-
             <div class="row">
-                <div class="col-md-6">
+                <div class="col-md-12">
                     <div class="card card-primary card-outline">
-                        <div class="card-header">
-                            <h5 class="card-title">Informasi Mahasiswa</h5>
-                        </div>
                         <div class="card-body">
-                            <p><strong>Nama:</strong> <?= esc($mahasiswa['nama_mahasiswa'] ?? 'Tidak Ditemukan') ?></p>
-                            <p><strong>NIM:</strong> <?= esc($mahasiswa['nim'] ?? 'Tidak Ditemukan') ?></p>
-                            <p><strong>Angkatan:</strong> <?= esc($mahasiswa['angkatan'] ?? 'Tidak Ditemukan') ?></p>
-                            <a href="<?= site_url('mahasiswa/krs') ?>" class="btn btn-primary">Lihat Kartu Rencana Studi (KRS)</a>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-md-6">
-                    <div class="card">
-                        <div class="card-header">
-                            <h5 class="card-title">Upload Laporan Final Project</h5>
-                        </div>
-                        <div class="card-body">
-                            <p>Silakan upload file laporan akhir Anda dalam format PDF (Maksimal 2MB).</p>
-                            
-                            <?php if (session()->getFlashdata('validation')) : ?>
-                                <div class="alert alert-danger">
-                                    <?= session()->getFlashdata('validation')->listErrors() ?>
-                                </div>
-                            <?php endif; ?>
-
-                            <form action="<?= site_url('mahasiswa/upload') ?>" method="post" enctype="multipart/form-data">
-                                <?= csrf_field() ?>
-                                <div class="form-group">
-                                    <label for="laporan_project">Pilih File PDF</label>
-                                    <div class="input-group">
-                                        <div class="custom-file">
-                                            <input type="file" class="custom-file-input" id="laporan_project" name="laporan_project" required>
-                                            <label class="custom-file-label" for="laporan_project">Pilih file...</label>
-                                        </div>
-                                    </div>
-                                </div>
-                                <button type="submit" class="btn btn-success">Upload File</button>
-                            </form>
+                            <h5>Selamat Datang, <strong><?= esc($mahasiswa['nama_mahasiswa'] ?? 'Mahasiswa') ?>!</strong></h5>
+                            <p>Berikut adalah jadwal kuliah Anda untuk semester ini.</p>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
-</div>
 
-<?php
-echo view('layouts/admin_footer'); 
-?>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title"><i class="fas fa-calendar-alt mr-2"></i>Jadwal Kuliah Semester Ini</h3>
+                        </div>
+                        <div class="card-body p-0">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Hari</th>
+                                        <th>Jam</th>
+                                        <th>Mata Kuliah</th>
+                                        <th>SKS</th>
+                                        <th>Ruangan</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php if (empty($jadwal_list)): ?>
+                                        <tr>
+                                            <td colspan="5" class="text-center py-4">
+                                                Jadwal belum tersedia.
+                                            </td>
+                                        </tr>
+                                    <?php else: ?>
+                                        <?php foreach ($jadwal_list as $jadwal): ?>
+                                            <tr>
+                                                <td class="font-weight-bold"><?= esc($jadwal['hari']) ?></td>
+                                                <td><?= esc(date('H:i', strtotime($jadwal['jam_mulai']))) ?> - <?= esc(date('H:i', strtotime($jadwal['jam_selesai']))) ?></td>
+                                                <td><?= esc($jadwal['nama_matkul']) ?> <br><small class="text-muted"><?= esc($jadwal['kode_matkul']) ?></small></td>
+                                                <td><?= esc($jadwal['sks']) ?></td>
+                                                <td><span class="badge bg-success"><?= esc($jadwal['ruangan']) ?></span></td>
+                                            </tr>
+                                        <?php endforeach; ?>
+                                    <?php endif; ?>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </div></div>
+    </div>
+<?= view('layouts/admin_footer') ?>

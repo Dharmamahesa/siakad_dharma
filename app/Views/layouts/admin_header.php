@@ -12,7 +12,7 @@
     <style>
         /* (CSS kustom Anda dari sebelumnya bisa tetap di sini) */
         .content-wrapper {
-            background: url('https://depotkamera.com/wp-content/uploads/2022/03/Picture1-2.png') no-repeat center center;
+            background: url('https://a.storyblok.com/f/178900/920x518/1f22484fb6/frieren-beyond-journeys-end.jpg/m/filters:quality(95)format(webp)') no-repeat center center;
             background-size: cover;
             position: relative;
         }

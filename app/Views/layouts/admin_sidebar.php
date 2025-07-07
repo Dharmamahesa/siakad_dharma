@@ -73,9 +73,7 @@
                     </li>
 
 
-                // di dalam file app/Views/layouts/admin_sidebar.php
-
-            <?php elseif (session()->get('role') === 'mahasiswa'): ?>
+           <?php elseif (session()->get('role') === 'mahasiswa'): ?>
                 <li class="nav-item">
                     <a href="<?= site_url('mahasiswa/dashboard') ?>" class="nav-link ...">
                         <i class="nav-icon fas fa-user-graduate"></i><p>Dashboard</p>

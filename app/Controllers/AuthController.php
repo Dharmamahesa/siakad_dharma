@@ -40,9 +40,7 @@ class AuthController extends BaseController
         $user = $userModel->getUserByUsername($username);
 
         if ($user && password_verify($password, $user['password'])) {
-            // INI BAGIAN PALING PENTING DAN KRITIS
-            // Kita memastikan semua data dari tabel 'users' disimpan ke sesi
-            $sessionData = [
+           $sessionData = [
                 'id_user'       => $user['id_user'],
                 'username'      => $user['username'],
                 'role'          => $user['role'],
@@ -52,8 +50,6 @@ class AuthController extends BaseController
             ];
             
             $this->session->set($sessionData);
-
-            // Arahkan ke dashboard yang sesuai
             $role = $user['role'];
             if ($role === 'admin') { return redirect()->to('/admin/dashboard'); } 
             elseif ($role === 'mahasiswa') { return redirect()->to('/mahasiswa/dashboard'); } 

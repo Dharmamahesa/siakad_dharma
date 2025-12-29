@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/admin-lte@3.2/dist/css/adminlte.min.css">
 
     <style>
+<<<<<<< HEAD
         /* --- GLASSMORPHISM UI THEME BY GEMINI --- */
 
         /* 1. Background Setup */
@@ -20,20 +21,35 @@
             position: relative;
         }
         /* Overlay Gelap agar konten terbaca */
+=======
+        /* (CSS kustom Anda dari sebelumnya bisa tetap di sini) */
+        .content-wrapper {
+            background: url('https://a.storyblok.com/f/178900/920x518/1f22484fb6/frieren-beyond-journeys-end.jpg/m/filters:quality(95)format(webp)') no-repeat center center;
+            background-size: cover;
+            position: relative;
+        }
+>>>>>>> 5a738fe68a8fafe098f17057aeb31207d86c45ae
         .content-wrapper::before {
             content: '';
             position: absolute;
             top: 0; left: 0; right: 0; bottom: 0;
+<<<<<<< HEAD
             background-color: rgba(0, 0, 0, 0.6); /* Ubah angka 0.6 untuk mengatur kegelapan (0.0 - 1.0) */
             z-index: 0;
             pointer-events: none;
         }
         
         /* Pastikan konten berada di atas overlay */
+=======
+            background-color: rgba(0, 0, 0, 0.75);
+            z-index: 1;
+        }
+>>>>>>> 5a738fe68a8fafe098f17057aeb31207d86c45ae
         .content-header, .content {
             position: relative;
             z-index: 2;
         }
+<<<<<<< HEAD
 
         /* 2. Glass Effect untuk Komponen Utama (Navbar, Sidebar, Card) */
         .main-header, 
@@ -119,13 +135,24 @@
         }
         .breadcrumb-item.active {
             color: #dcdcdc !important;
+=======
+        .content-header h1, .content-header .breadcrumb-item, .content-header .breadcrumb-item a {
+            color: #ffffff !important;
+        }
+        .card {
+            background-color: rgba(255, 255, 255, 0.9);
+>>>>>>> 5a738fe68a8fafe098f17057aeb31207d86c45ae
         }
     </style>
 </head>
 <body class="hold-transition sidebar-mini">
 <div class="wrapper">
 
+<<<<<<< HEAD
   <nav class="main-header navbar navbar-expand navbar-dark">
+=======
+  <nav class="main-header navbar navbar-expand navbar-white navbar-light">
+>>>>>>> 5a738fe68a8fafe098f17057aeb31207d86c45ae
     <ul class="navbar-nav">
       <li class="nav-item">
         <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
@@ -138,7 +165,11 @@
           <i class="far fa-user-circle"></i>
           <span class="d-none d-md-inline ml-1"><?= esc(session()->get('username')) ?></span>
         </a>
+<<<<<<< HEAD
         <div class="dropdown-menu dropdown-menu-sm dropdown-menu-right" style="background-color: rgba(255,255,255,0.9); backdrop-filter: none;">
+=======
+        <div class="dropdown-menu dropdown-menu-sm dropdown-menu-right">
+>>>>>>> 5a738fe68a8fafe098f17057aeb31207d86c45ae
           <a href="<?= site_url('logout') ?>" class="dropdown-item text-danger">
             <i class="fas fa-sign-out-alt mr-2"></i> Logout
           </a>
@@ -147,7 +178,11 @@
 
       <li class="nav-item">
         <a class="nav-link" href="<?= site_url('logout') ?>" role="button" title="Logout" onclick="return confirm('Apakah Anda yakin ingin logout?')">
+<<<<<<< HEAD
             <i class="fas fa-sign-out-alt text-danger" style="text-shadow: none;"></i>
+=======
+            <i class="fas fa-sign-out-alt text-danger"></i>
+>>>>>>> 5a738fe68a8fafe098f17057aeb31207d86c45ae
         </a>
       </li>
 

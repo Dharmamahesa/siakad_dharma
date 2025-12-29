@@ -55,9 +55,12 @@ $routes->group('admin', ['filter' => 'admin_auth'], function($routes) {
     $routes->get('matakuliah/delete/(:num)', 'AdminController::matakuliah_delete/$1');
     $routes->get('user/create', 'AdminController::user_create');
     $routes->post('user/store', 'AdminController::user_store');
+<<<<<<< HEAD
     $routes->get('pengumuman', 'PengumumanController::index');
     $routes->post('pengumuman/store', 'PengumumanController::store');
     $routes->get('pengumuman/delete/(:num)', 'PengumumanController::delete/$1');
+=======
+>>>>>>> 5a738fe68a8fafe098f17057aeb31207d86c45ae
 });
 
 

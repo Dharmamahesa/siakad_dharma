@@ -43,7 +43,11 @@ class MahasiswaModel extends Model
      * Ini adalah fitur keamanan penting untuk mencegah Mass Assignment.
      * @var array
      */
+<<<<<<< HEAD
     protected $allowedFields    = ['nim', 'nama_mahasiswa', 'prodi', 'angkatan', 'foto'];
+=======
+    protected $allowedFields    = ['nim', 'nama_mahasiswa', 'angkatan'];
+>>>>>>> 5a738fe68a8fafe098f17057aeb31207d86c45ae
 
     /**
      * Menentukan apakah Model harus mengelola timestamp `created_at` dan `updated_at` secara otomatis.

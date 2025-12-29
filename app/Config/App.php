@@ -16,7 +16,11 @@ class App extends BaseConfig
      *
      * E.g., http://example.com/
      */
+<<<<<<< HEAD
     public string $baseURL = 'http://localhost/sikad/public/';
+=======
+    public string $baseURL = 'http://localhost:8080/';
+>>>>>>> 5a738fe68a8fafe098f17057aeb31207d86c45ae
 
     /**
      * Allowed Hostnames in the Site URL other than the hostname in the baseURL.

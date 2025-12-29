@@ -6,7 +6,10 @@ use App\Controllers\BaseController;
 use App\Models\MahasiswaModel;
 use App\Models\RencanaStudiModel;
 use App\Models\MataKuliahModel;
+<<<<<<< HEAD
 use App\Models\PengumumanModel; // Tambahan: Import Model Pengumuman
+=======
+>>>>>>> 5a738fe68a8fafe098f17057aeb31207d86c45ae
 
 class MahasiswaController extends BaseController
 {
@@ -15,12 +18,17 @@ class MahasiswaController extends BaseController
      */
     public function index()
     {
+<<<<<<< HEAD
         $mahasiswaModel = new MahasiswaModel();
         $rencanaStudiModel = new RencanaStudiModel();
         
         // Tambahan: Inisialisasi Model Pengumuman
         $pengumumanModel = new PengumumanModel();
 
+=======
+        $mahasiswaModel = new \App\Models\MahasiswaModel();
+        $rencanaStudiModel = new \App\Models\RencanaStudiModel();
+>>>>>>> 5a738fe68a8fafe098f17057aeb31207d86c45ae
         $id_mahasiswa = session()->get('id_mahasiswa');
 
         // 1. Ambil data KRS lengkap
@@ -47,6 +55,7 @@ class MahasiswaController extends BaseController
             return $pos_a <=> $pos_b;
         });
 
+<<<<<<< HEAD
         // 4. Tambahan: Ambil Pengumuman untuk Dashboard
         // Mengambil data dari tabel pengumuman dengan target 'semua' atau 'mahasiswa'
         $list_pengumuman = $pengumumanModel->getPengumumanForUser('mahasiswa');
@@ -57,6 +66,13 @@ class MahasiswaController extends BaseController
             'mahasiswa'   => $mahasiswaModel->find($id_mahasiswa),
             'jadwal_list' => $flat_list,      // Data jadwal
             'pengumuman'  => $list_pengumuman // Data pengumuman baru
+=======
+        // 4. Siapkan semua data untuk dikirim ke view
+        $data = [
+            'title' => 'Dashboard Mahasiswa',
+            'mahasiswa' => $mahasiswaModel->find($id_mahasiswa),
+            'jadwal_list' => $flat_list, // Kirim data jadwal yang sudah diolah
+>>>>>>> 5a738fe68a8fafe098f17057aeb31207d86c45ae
         ];
         
         return view('mahasiswa/dashboard', $data);
@@ -164,7 +180,11 @@ class MahasiswaController extends BaseController
     }
 
     /**
+<<<<<<< HEAD
      * Menampilkan Transkrip Nilai Sementara.
+=======
+     * FUNGSI TRANSKRIP YANG DIPERBAIKI
+>>>>>>> 5a738fe68a8fafe098f17057aeb31207d86c45ae
      */
     public function transkrip()
     {
@@ -202,7 +222,11 @@ class MahasiswaController extends BaseController
     }
 
     /**
+<<<<<<< HEAD
      * Menampilkan Jadwal Kuliah.
+=======
+     * FUNGSI JADWAL YANG DIPERBAIKI
+>>>>>>> 5a738fe68a8fafe098f17057aeb31207d86c45ae
      */
     public function jadwal()
     {
